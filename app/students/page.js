@@ -39,20 +39,27 @@ export default function StudentsPage() {
     setStudentPath(path);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      let code = (studentPath === 'volunteer' ? 'VOL-' : 'TAL-');
-      for (let i = 0; i < 6; i++) {
-        code += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      setApplicationId(code);
-      setIsSubmitting(false);
+    const payloadData = studentPath === 'volunteer' ? volunteerForm : talentForm;
+
+    try {
+      const res = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: studentPath, data: payloadData })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to submit application.');
+      setApplicationId(data.refCode);
       setSuccess(true);
-    }, 1500);
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

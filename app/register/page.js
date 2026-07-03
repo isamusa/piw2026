@@ -53,23 +53,31 @@ export default function RegisterPage() {
     return code;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      let code = '';
-      if (regType === 'attendee') {
-        code = generateTicket('REG');
-      } else if (regType === 'hackathon') {
-        code = generateTicket('HACK');
-      } else {
-        code = generateTicket('EXH');
-      }
-      setTicketCode(code);
-      setIsSubmitting(false);
+    const payloadData = regType === 'attendee' 
+      ? attendeeForm 
+      : regType === 'hackathon' 
+        ? hackathonForm 
+        : exhibitorForm;
+
+    try {
+      const res = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: regType, data: payloadData })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to submit registration.');
+      setTicketCode(data.refCode);
       setSuccess(true);
-    }, 1500);
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
