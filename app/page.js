@@ -345,19 +345,26 @@ export default function Home() {
         <div className="pillarGrid">
           {pillars.map((pillar, i) => {
             const Icon = pillar.icon;
+            const pathMap = ["/challenges", "/partner", "/career-fair"];
             return (
-              <article
-                className="pillarCard"
+              <Link
+                href={pathMap[i]}
                 key={pillar.title}
-                data-reveal
-                data-delay={String(i * 150)}
+                style={{ display: "block" }}
               >
-                <div className="pillarIcon">
-                  <Icon size={26} strokeWidth={2.1} aria-hidden="true" />
-                </div>
-                <h3>{pillar.title}</h3>
-                <p>{pillar.copy}</p>
-              </article>
+                <article
+                  className="pillarCard"
+                  data-reveal
+                  data-delay={String(i * 150)}
+                  style={{ height: "100%" }}
+                >
+                  <div className="pillarIcon">
+                    <Icon size={26} strokeWidth={2.1} aria-hidden="true" />
+                  </div>
+                  <h3>{pillar.title}</h3>
+                  <p>{pillar.copy}</p>
+                </article>
+              </Link>
             );
           })}
         </div>
@@ -379,18 +386,37 @@ export default function Home() {
         </div>
 
         <div className="programGrid">
-          {program.map(([title, copy], i) => (
-            <article
-              className="programCard"
-              key={title}
-              data-reveal
-              data-delay={String((i % 2) * 150)}
-            >
-              <div className="programNum">{String(i + 1).padStart(2, "0")}</div>
-              <span className="programTitle">{title}</span>
-              <p>{copy}</p>
-            </article>
-          ))}
+          {program.map(([title, copy], i) => {
+            const pathMap = [
+              "/hackathons",
+              "/register",
+              "/workshops",
+              "/exhibitions",
+              "/career-fair",
+              "/partner"
+            ];
+            return (
+              <Link
+                href={pathMap[i] || "/"}
+                key={title}
+                style={{ display: "block" }}
+              >
+                <article
+                  className="programCard"
+                  data-reveal
+                  data-delay={String((i % 2) * 150)}
+                  style={{ height: "100%" }}
+                >
+                  <div className="programNum">{String(i + 1).padStart(2, "0")}</div>
+                  <span className="programTitle" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    {title}
+                    <ArrowRight size={14} style={{ opacity: 0.6 }} />
+                  </span>
+                  <p>{copy}</p>
+                </article>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
