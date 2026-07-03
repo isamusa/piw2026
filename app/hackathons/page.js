@@ -35,7 +35,7 @@ export default function HackathonPage() {
             </p>
           </div>
 
-          <div className="formGrid" style={{ gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 0.8fr)', gap: '28px' }}>
+          <div className="hackathonGrid">
             
             {/* Timeline Column */}
             <div>

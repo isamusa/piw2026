@@ -82,7 +82,19 @@ export default function ParticleCanvas() {
 
       draw() {
         if (this.life <= 0) return;
-        const alpha = Math.max(0, this.opacity * this.life);
+        
+        // Fading out in the middle: calculate X proximity to center
+        const midX = canvas.width / 2;
+        const distanceToCenter = Math.abs(this.x - midX);
+        const fadeWidth = canvas.width * 0.28; // 28% of canvas width left/right of center
+        let visibleFactor = 1;
+        if (distanceToCenter < fadeWidth) {
+          visibleFactor = distanceToCenter / fadeWidth;
+        }
+
+        const alpha = Math.max(0, this.opacity * this.life * visibleFactor);
+        if (alpha <= 0.01) return;
+
         ctx.save();
         ctx.globalAlpha = alpha;
         if (this.isBurst) {
@@ -120,14 +132,29 @@ export default function ParticleCanvas() {
     const drawConnections = () => {
       const maxDist = 115;
       const nonBurst = particles.filter(p => !p.isBurst && p.life > 0);
+      
+      const getVisibleFactor = (x) => {
+        const mid = canvas.width / 2;
+        const dist = Math.abs(x - mid);
+        const fade = canvas.width * 0.28;
+        return dist < fade ? dist / fade : 1;
+      };
+
       for (let i = 0; i < nonBurst.length; i++) {
+        const vF1 = getVisibleFactor(nonBurst[i].x);
+        if (vF1 <= 0.05) continue;
+
         for (let j = i + 1; j < nonBurst.length; j++) {
+          const vF2 = getVisibleFactor(nonBurst[j].x);
+          const combinedFactor = vF1 * vF2;
+          if (combinedFactor <= 0.05) continue;
+
           const dx = nonBurst[i].x - nonBurst[j].x;
           const dy = nonBurst[i].y - nonBurst[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < maxDist) {
             ctx.save();
-            ctx.globalAlpha = (1 - dist / maxDist) * 0.13;
+            ctx.globalAlpha = (1 - dist / maxDist) * 0.13 * combinedFactor;
             ctx.strokeStyle = 'rgba(6,160,69,1)';
             ctx.lineWidth = 0.7;
             ctx.beginPath();

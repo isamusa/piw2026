@@ -34,7 +34,7 @@ export default function ExhibitionPage() {
             </p>
           </div>
 
-          <div className="formGrid" style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '20px', marginBottom: '40px' }}>
+          <div className="subpageGrid" style={{ marginBottom: '40px' }}>
             {OFFERS.map((item, i) => {
               const Icon = item.icon;
               return (

@@ -58,7 +58,7 @@ export default function MentorsPage() {
             </p>
           </div>
 
-          <div className="formGrid" style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '20px', marginBottom: '40px' }}>
+          <div className="subpageGrid" style={{ marginBottom: '40px' }}>
             {MENTORS.map((item, i) => (
               <div key={item.name} className="formContainer" style={{ padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>

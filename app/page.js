@@ -112,12 +112,12 @@ const partnershipTypes = [
 ];
 
 const featureCards = [
-  { label: "Innovation challenges", icon: Lightbulb },
-  { label: "Hackathons",           icon: Code2      },
-  { label: "Startup exhibitions",  icon: Rocket     },
-  { label: "Workshops",            icon: Sparkles   },
-  { label: "Mentorship",           icon: Handshake  },
-  { label: "Career fair",          icon: Building2  },
+  { label: "Innovation challenges", icon: Lightbulb, href: "/challenges" },
+  { label: "Hackathons",           icon: Code2,      href: "/hackathons" },
+  { label: "Startup exhibitions",  icon: Rocket,     href: "/exhibitions" },
+  { label: "Workshops",            icon: Sparkles,   href: "/workshops" },
+  { label: "Mentorship",           icon: Handshake,  href: "/mentors" },
+  { label: "Career fair",          icon: Building2,  href: "/career-fair" },
 ];
 
 /* ── Marquee content ─────────────────────────────────────── */
@@ -276,10 +276,12 @@ export default function Home() {
           {featureCards.map((item) => {
             const Icon = item.icon;
             return (
-              <div className="featureItem" key={item.label}>
-                <Icon size={22} aria-hidden="true" />
-                <span>{item.label}</span>
-              </div>
+              <Link href={item.href} key={item.label} style={{ display: 'contents' }}>
+                <div className="featureItem">
+                  <Icon size={22} aria-hidden="true" />
+                  <span>{item.label}</span>
+                </div>
+              </Link>
             );
           })}
         </div>

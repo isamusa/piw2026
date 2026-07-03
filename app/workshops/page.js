@@ -62,7 +62,7 @@ export default function WorkshopsPage() {
             </p>
           </div>
 
-          <div className="formGrid" style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '20px', marginBottom: '40px' }}>
+          <div className="subpageGrid" style={{ marginBottom: '40px' }}>
             {TRACKS.map((track, i) => {
               const Icon = track.icon;
               return (

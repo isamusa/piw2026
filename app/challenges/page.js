@@ -54,7 +54,7 @@ export default function ChallengesPage() {
             </p>
           </div>
 
-          <div className="formGrid" style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '20px' }}>
+          <div className="subpageGrid">
             {CHALLENGES.map((item, i) => (
               <div 
                 className="formContainer" 
